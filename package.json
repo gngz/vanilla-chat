@@ -1,0 +1,17 @@
+{
+  "name": "vanilla-chat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/app.js"
+  },
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  }
+}

@@ -1,0 +1,4 @@
+node_modules
+.eslintrc.js
+*.lock
+*docker-compose.yml
