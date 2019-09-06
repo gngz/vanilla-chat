@@ -1,10 +1,13 @@
-console.log("hello world");
+
+const express = require('express');
+const apiroute = require('./routes/Api');
 
 
-let a = 1 + 1 ;
+const app = express();
+const port = 8080;
 
-console.log(a);
+app.use('/',express.static('public'));
 
-a = a +1 ;
+app.use('/api', apiroute);
 
-console.log(a);
+app.listen(port, () =>  console.log("listen"));
