@@ -20,24 +20,25 @@ function generateToken(user) {
 function Authenticated (req, res, next) {
     const authHeader = req.headers.authorization;
 
-    if(!authHeader)
+    if(!authHeader) {
         return res.status(401).send({error: "No authentication token provided"});
+    } else {
+        const [scheme, token] = authHeader.split(" ");
 
-    const [scheme, token] = authHeader.split(" ");
-
-    if(scheme.toUpperCase() != "BEARER")
-        return;
-
-
-    jwt.verify(token, hash, (err, decoded) => {
-        if(err) {
-            res.status(401).json({error : "Invalid token"})
+        if(scheme.toUpperCase() === "BEARER") {
+            jwt.verify(token, hash, (err, decoded) => {
+                if(err) {
+                    res.status(401).json({error : "Invalid token"})
+                }
+                
+                req.userId = decoded.id;
+                next();
+            })
         }
         
-        req.userId = decoded.id;
-        next();
-    })
 
+    }
+        
 }
 
 module.exports = {

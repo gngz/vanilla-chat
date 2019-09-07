@@ -16,5 +16,3 @@ app.use('/api', apiroute);
 
 // listen
 app.listen(PORT, () =>  console.log(`Vanilla-Chat webserver listen on port ${PORT}`));
-
-console.log(process.env.MONGO_URL)

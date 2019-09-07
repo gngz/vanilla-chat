@@ -24,18 +24,19 @@ router.post('/', async (req,res) => {
     //  TO DO: validate email
     let user  =  await UserController.getByEmail(email);
 
-    if(!user)
-        return res.status(400).json({error : "No account found with this e-mail address"});
-
-    if(await AuthController.checkAuthentication(user, email,password)) {
+    if(!user) {
+        res.status(400).json({error : "No account found with this e-mail address"});
+    } else {
+        if(await AuthController.checkAuthentication(user, email,password)) {
             user.password = undefined;
             user.__v = undefined;
             let token = AuthController.generateToken(user);
             res.send( {user , token });
-    } else {
-         res.status(401).json({error : "Invalid credentials"});
+        } else {
+            res.status(401).json({error : "Invalid credentials"});
+        }
     }
-
+         
 })
 
 module.exports = router;
