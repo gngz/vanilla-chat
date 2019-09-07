@@ -16,7 +16,6 @@ router.get('/',AuthController.Authenticated, async (req,res) => {
     let user = await UserController.getById(req.userId);
     user.password = undefined;  // removing password field
     res.json(user); // send user in json format (200)
-
 });
 
 
@@ -36,13 +35,15 @@ router.post('/', async (req,res) => {
 
 
     try {
-        if(await UserController.getByEmail(email)) 
-            return res.status(400).json({error : "User already exists"});
-
-        let user = await UserController.register(username,password,email,profilepic);
-        let token = AuthController.generateToken(user);
-        user.password = undefined;
-        res.json({user, token});
+        if(await UserController.getByEmail(email)) {
+            res.status(400).json({error : "User already exists"});
+        } else {
+            let user = await UserController.register(username,password,email,profilepic);
+            let token = AuthController.generateToken(user);
+            user.password = undefined;
+            res.json({user, token});
+        }
+        
     } catch (err) {
         res.status(400).json({error : "Registration failed"});
     }

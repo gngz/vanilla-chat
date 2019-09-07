@@ -5,7 +5,7 @@ var hash = "ASVADASDASDDAD";
 
 async function  checkAuthentication(user, email, password) {
     
-    let validEmail = (user.email == email);
+    let validEmail = (user.email === email);
     let validPassword = await bcrypt.compare(password, user.password);
     return (validEmail && validPassword);
 }
