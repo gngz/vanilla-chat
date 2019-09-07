@@ -12,18 +12,28 @@ router.get('/', function (req,res) {
 });
 
 
+/*
+    Route /api/auth
+    Method POST
+    Authenticate the user responding with a jwt token or a json error menssage
+*/
+
 router.post('/', async (req,res) => {
     const {email , password} = req.body;
     
-    // validate email
+    //  TO DO: validate email
     let user  =  await UserController.getByEmail(email);
 
-    if(AuthController.checkAuthentication(user, email,password)) {
+    if(!user)
+        return res.status(400).json({error : "No account found with this e-mail address"});
+
+    if(await AuthController.checkAuthentication(user, email,password)) {
             user.password = undefined;
+            user.__v = undefined;
             let token = AuthController.generateToken(user);
             res.send( {user , token });
     } else {
-         res.status(400).json({error : "not authenticated"});
+         res.status(401).json({error : "Invalid credentials"});
     }
 
 })

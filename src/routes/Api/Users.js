@@ -5,25 +5,34 @@ const AuthController = require('../../controllers/Auth')
 
 router.use(express.urlencoded({ extended: false }));
 
-
+/*
+    Route /api/user
+    Method GET
+    Get current user information
+*/
 
 router.get('/',AuthController.Authenticated, async (req,res) => {
 
     let user = await UserController.getById(req.userId);
-    user.password = undefined;
-
-    res.json(user);
+    user.password = undefined;  // removing password field
+    res.json(user); // send user in json format (200)
 
 });
 
 
 
+/*
+    Route /api/user
+    Method POST
+    Register a new user
+*/
+
 router.post('/', async (req,res) => {
     
-    let username = req.body.username;
-    let password = req.body.password;
-    let profilepic = null;
-    let email = req.body.email;
+
+    let {username, password, profilepic, email} = req.body;
+    
+    // TO DO: Validations
 
 
     try {
